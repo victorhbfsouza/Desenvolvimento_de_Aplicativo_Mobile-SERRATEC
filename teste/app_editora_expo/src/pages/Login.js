@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import TouchableScale from 'react-native-touchable-scale';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const LoginScreen = () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation();
 
   const handleLogin = () => {
     console.log('Email:', email);
     console.log('Senha:', password);
+    navigation.navigate('Login');
   };
 
   const togglePasswordVisibility = () => {
@@ -48,16 +51,26 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableScale
+      <TouchableOpacity
         style={styles.button}
         onPress={handleLogin}
-        activeScale={0.9}
-        tension={50}
-        friction={7}
       >
         <Text style={styles.buttonText}>ENTRAR</Text>
-      </TouchableScale>
+      </TouchableOpacity>
     </View>
+  );
+};
+
+const Stack = createStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
@@ -120,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default Login;
